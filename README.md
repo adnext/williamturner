@@ -1,7 +1,7 @@
 # William Turner
 William Turner the one eyed pirate has a problem - this stack should help him.
 
-![williamturner](resources/images/williamturner.png "William Turner")
+![williamturner](./resources/williamturner.png "William Turner")
 
 ## Story
 
