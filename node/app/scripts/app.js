@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @ngdoc overview
@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular
+angular // eslint-disable-line 
   .module('angularApp', [
     'ngAnimate',
     'ngCookies',
@@ -27,5 +27,5 @@ angular
       })
       .otherwise({
         redirectTo: '/'
-      });
-  });
+      })
+  })

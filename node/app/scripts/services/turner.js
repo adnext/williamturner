@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @ngdoc function
@@ -8,17 +8,17 @@
  * Controller of the angularApp
 */
 
-angular.module('turnerService', [])
+angular.module('turnerService', []) // eslint-disable-line 
 
-	// super simple service
-	// each function returns a promise object
-	.factory('Turner', ['$http',function($http) {
-		return {
-			get : function() {
-				return $http.get('/api/turner');
-			},
-			post : function(original_text) {
-                return $http.post('/api/turner', { "text": original_text });
-            }
-		}
-	}]);
+  // super simple service
+  // each function returns a promise object
+  .factory('Turner', ['$http', function ($http) {
+    return {
+      get: function () {
+        return $http.get('/api/turner')
+      },
+      post: function (original_text) {
+        return $http.post('/api/turner', { 'text': original_text })
+      }
+    }
+  }])
