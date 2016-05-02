@@ -32,6 +32,7 @@ within this directory run:
 npm install -g bower
 npm install -g grunt-cli
 npm install
+bower install
 ```
 ### run the app
 within this directory run:
