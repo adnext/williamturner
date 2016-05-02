@@ -15,10 +15,10 @@ angular.module('turnerService', []) // eslint-disable-line
   .factory('Turner', ['$http', function ($http) {
     return {
       get: function () {
-        return $http.get('/api/turner')
+        return $http.get('/williamturner/api/turner/controller/TurnerController.php')
       },
       post: function (original_text) {
-        return $http.post('/api/turner', { 'text': original_text })
+        return $http.post('/williamturner/api/turner/controller/TurnerController.php', { 'text': original_text })
       }
     }
   }])
