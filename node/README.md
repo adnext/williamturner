@@ -21,3 +21,10 @@ npm install -g grunt-cli
 npm install
 ```
 
+### Eventually upgrade nodejs:
+on a cmdline run:
+```shell
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+```
