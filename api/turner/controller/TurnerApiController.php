@@ -9,7 +9,7 @@ $turnerController = new TurnerController();
 
 switch ($requestMethod) {
     case 'POST':
-        $response = $turnerController->post(filter_input(INPUT_POST, 'text'));
+        $response = $turnerController->post(file_get_contents('php://input'));
         break;
     case 'GET':
         $response = $turnerController->get(filter_input(INPUT_GET, 'text'));
