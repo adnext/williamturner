@@ -5,8 +5,18 @@
  * @author Alexander Dvornichenko
  */
 
-return "{'response' : 'dummy'}";
-
 class TurnerController {
-    //put your code here
+
+    public function post($param) {
+        
+    }
+    public function get($input) {
+        
+        return ["TernurGet" => $input];
+        
+    }
+    public function remove($param) {
+        
+    }
+    
 }
