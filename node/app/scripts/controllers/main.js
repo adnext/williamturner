@@ -32,7 +32,7 @@ angular.module('angularApp') // eslint-disable-line
 
                         // call the create function from our service (returns a promise object)
                         var original = $scope.formData.text
-
+                        
                         // POST =============================================================
                         Turner.post(original)
                                 // if successful creation, call our get function to get all the new todos
@@ -49,6 +49,7 @@ angular.module('angularApp') // eslint-disable-line
 
                         console.log($scope.turner);
                         console.log($scope.turner.length);
+                        console.log($scope.turner.turned_text);
 //                        TODO
 //                        return $scope.turner[$scope.activeMsg].turned_text
                         return $scope.turner.turned_text;
@@ -56,9 +57,9 @@ angular.module('angularApp') // eslint-disable-line
                 }
 
                 $scope.refresh = function () {
-                    console.log("refresh")
-                    console.log("Active Message = " + $scope.activeMsg)
-                    console.log("Max messages = " + $scope.turner.length)
+//                    console.log("refresh")
+//                    console.log("Active Message = " + $scope.activeMsg)
+//                    console.log("Max messages = " + $scope.turner.length)
 
                     $scope.$apply(function () {
                         $scope.activeMsg++

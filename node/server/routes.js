@@ -3,7 +3,7 @@ var moment = require('moment')
 module.exports = function(app, dbCli) {
 
 	// api ---------------------------------------------------------------------
-   	app.get('/williamturner/api/turner/controller/TurnerApiController.php', function(req, res) {
+   	app.get('/api/turner', function(req, res) {
 
         dbCli.execute('SELECT * from turner_by_date LIMIT 10', function(err, result){
             if (err) {
@@ -15,7 +15,7 @@ module.exports = function(app, dbCli) {
 
 	});
 
-	app.post('/williamturner/api/turner/controller/TurnerApiController.php', function(req, res) {
+	app.post('/api/turner', function(req, res) {
         
         console.log(req.body.text);
         if (req.body.text) {
@@ -42,7 +42,7 @@ module.exports = function(app, dbCli) {
         }
 	});
 
-	app.delete('/williamturner/api/turner/controller/TurnerApiController.php/:id', function(req, res) {
+	app.delete('/api/turner/:id', function(req, res) {
 
 	});
 
