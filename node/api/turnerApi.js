@@ -16,7 +16,7 @@ module.exports = function (port, dbCli) {
 
 
     function onTurnerGet(response) {
-        var query = 'SELECT * FROM turner.turner_by_date LIMIT 1';
+        var query = 'SELECT turned_text FROM turner.turner_by_date LIMIT 5';
 
         dbCli.execute(query, function (err, result) {
             defultDBErrorHandler(err);
@@ -26,12 +26,14 @@ module.exports = function (port, dbCli) {
 
             if (!err) {
                 if (result.rows.length > 0) {
-                    var responseEntry = result.rows[0].turned_text;
+                    //console.log(result.rows);
 
-                    //send response; It's here, because of the asynchronicity of dbCli.execute();
-                    response.write(JSON.stringify({"turned_text": responseEntry}));
-                    response.end();
+                    //send response is here, because of the asynchronicity of dbCli.execute();
+                    response.write(JSON.stringify(result.rows));
+                } else{
+                    response.write(JSON.stringify({"response" : "no entries in the DB"}));
                 }
+                response.end();
             }
         });
     }
