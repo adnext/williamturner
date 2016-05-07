@@ -8,64 +8,68 @@
  * Controller of the angularApp
  */
 angular.module('angularApp') // eslint-disable-line 
-  .controller('MainCtrl', ['$scope', '$http', 'Turner', function ($scope, $http, Turner) {
-    $scope.formData = {}
-    $scope.loading = true
-    $scope.activeMsg = 0
+        .controller('MainCtrl', ['$scope', '$http', 'Turner', function ($scope, $http, Turner) {
+                $scope.formData = {};
+                $scope.loading = true;
+                $scope.activeMsg = 0;
 
-    // GET =====================================================================
+                function turnerGet() {
+                    Turner.get()
+                            .success(function (data) {
+                                $scope.turner = data
+                                $scope.loading = false
+                            })
+                }
 
-    Turner.get()
-      .success(function (data) {
-        $scope.turner = data
-        $scope.loading = false
-      })
+                // GET =====================================================================
+                turnerGet();
 
-    $scope.createTurner = function () {
-      // validate the formData to make sure that something is there
-      // if form is empty, nothing will happen
-      if ($scope.formData.text !== undefined) {
-        $scope.loading = true
+                $scope.createTurner = function () {
+                    // validate the formData to make sure that something is there
+                    // if form is empty, nothing will happen
+                    if ($scope.formData.text !== undefined) {
+                        $scope.loading = true
 
-        // call the create function from our service (returns a promise object)
+                        // call the create function from our service (returns a promise object)
+                        var original = $scope.formData.text
+                        
+                        // POST =============================================================
+                        Turner.post(original)
+                                // if successful creation, call our get function to get all the new todos
+                                .success(function (data) {
+                                    console.log(data)
+                                    turnerGet();
+                                    $scope.formData = {} // clear the form so our user is ready to enter another
+                                })
+                    }
+                }
 
-        var original = $scope.formData.text
+                $scope.setText = function (index) {
+                    if (typeof ($scope.turner) !== 'undefined' && $scope.turner.length !== 0) {
 
-        Turner.post(original)
+                        console.log($scope.turner);
+                        console.log($scope.turner.length);
+                        console.log($scope.turner.turned_text);
+//                        TODO
+//                        return $scope.turner[$scope.activeMsg].turned_text
+                        return $scope.turner.turned_text;
+                    }
+                }
 
-          // if successful creation, call our get function to get all the new todos
-          .success(function (data) {
-            console.log(data)
-            Turner.get()
-              .success(function (data) {
-                $scope.turner = data
-                $scope.loading = false
-              })
-            $scope.formData = {} // clear the form so our user is ready to enter another
-          })
-      }
-    }
+                $scope.refresh = function () {
+//                    console.log("refresh")
+//                    console.log("Active Message = " + $scope.activeMsg)
+//                    console.log("Max messages = " + $scope.turner.length)
 
-    $scope.setText = function (index) {
-      if (typeof ($scope.turner) !== 'undefined' && $scope.turner.length !== 0) {
-        return $scope.turner[$scope.activeMsg].turned_text
-      }
-    }
+                    $scope.$apply(function () {
+                        $scope.activeMsg++
 
-    $scope.refresh = function () {
-      // console.log("refresh")
-      // console.log("Active Message = " + $scope.activeMsg)
-      // console.log("Max messages = " +  $scope.turner.length)
+                        if ($scope.activeMsg >= $scope.turner.length) {
+                            $scope.activeMsg = 0
+                        }
+                    }
+                    )
+                }
 
-      $scope.$apply(function () {
-        $scope.activeMsg++
-
-        if ($scope.activeMsg >= $scope.turner.length) {
-          $scope.activeMsg = 0
-        }
-      }
-      )
-    }
-
-    setInterval($scope.refresh, 3000)
-  }])
+                setInterval($scope.refresh, 3000)
+            }])
