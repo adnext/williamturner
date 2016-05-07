@@ -31,7 +31,7 @@ module.exports = function (port, dbCli) {
                     //send response is here, because of the asynchronicity of dbCli.execute();
                     response.write(JSON.stringify(result.rows));
                 } else{
-                    response.write(JSON.stringify({"response" : "no entries in the DB"}));
+                    response.write(JSON.stringify({"turned_text" : "No entries in the DB"}));
                 }
                 response.end();
             }

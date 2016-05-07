@@ -8,7 +8,7 @@
 var express = require('express');
 var app = express(); 					// create our app w/ express
 var port = process.env.PORT || 5002; 			// set the port
-var database = require('./config/database'); 			// load the database config
+var database = require('./config/database'); 		// load the database config
 var cassandra = require('cassandra-driver');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');

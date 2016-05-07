@@ -10,6 +10,7 @@
 angular.module('angularApp') // eslint-disable-line 
         .controller('MainCtrl', ['$scope', '$http', 'Turner', function ($scope, $http, Turner) {
                 $scope.formData = {};
+                $scope.turner = [];
                 $scope.loading = true;
                 $scope.activeMsg = 0;
 
@@ -38,9 +39,14 @@ angular.module('angularApp') // eslint-disable-line
                                 // if successful creation, call our get function to get all the new todos
                                 .success(function (data) {
                                     //console.log(data);
-                            
+
                                     //read your writes instead of turnerGet();
-                                    $scope.turner.unshift(data); // prepend new data to $scope.turner
+                                    if (typeof $scope.turner.unshift !== 'undefined') {
+                                        $scope.turner.unshift(data); // prepend new data to $scope.turner
+                                    } else {
+                                        $scope.turner = [data];
+                                        console.log($scope.turner);
+                                    }
                                     $scope.loading = false;
                                     $scope.activeMsg = 0;
                                     $scope.formData = {}; // clear the form so our user is ready to enter another
@@ -49,8 +55,16 @@ angular.module('angularApp') // eslint-disable-line
                 };
 
                 $scope.setText = function (index) {
-                    if (typeof ($scope.turner) !== 'undefined' && $scope.turner.length !== 0) {
-                        return $scope.turner[$scope.activeMsg].turned_text;
+                    if (typeof ($scope.turner) !== 'undefined') {
+                        if ($scope.turner.length > 1) {
+                            return $scope.turner[$scope.activeMsg].turned_text;
+                        } else if ($scope.turner.length !== 0) {
+                            if (typeof $scope.turner[0] !== 'undefined') {
+                                return $scope.turner[0].turned_text;
+                            } else {
+                                return $scope.turner.turned_text;
+                            }
+                        }
                     }
                 };
 
