@@ -1,7 +1,8 @@
 var http = require('http');
+var turnerLogicModule = require('./turnerLogic.js');
 
 function turnerLogic(originalText) {
-    return "Turned:" + originalText.split(" ");
+    return turnerLogicModule.turnerLogic(originalText);
 }
 
 module.exports = function (port, dbCli) {
@@ -57,7 +58,7 @@ module.exports = function (port, dbCli) {
         return {"turned_text": turnedText};
 
     }
-    
+
     function onTurnerDelete(requestBody) {
         return {"turned_text": "delete turned_text dummy"};
 
