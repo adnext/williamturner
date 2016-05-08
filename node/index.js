@@ -35,7 +35,7 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse applicati
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
 
 // routes ======================================================================
-require('./server/routes.js')(app, dbCli);
+//require('./server/routes.js')(app, dbCli); // unused
 
 // listen (start app with node server.js) ======================================
 //app.listen(port);

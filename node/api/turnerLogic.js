@@ -25,14 +25,15 @@ String.prototype.capitalizeFirstLetter = function () {
 //}
 
 
-//var originalText = "Tell me! Trespassing. I want to listen. What you have to say?To me;";
+//var originalText = "I'am waiting for the summer, Tell me! Trespassing. I want to listen. What you have to say?To me;";
 
 
 exports.turnerLogic = function(originalText) {
     var placeholderChar = "__x__"; // plceholder for turner consonants
 
     var regexAlphanumericCharacters = /\w+/;
-    var separtorSentences = /([^\s*\w*\s*])/; //not alphanumeric characters with possible white spaces
+//    var separtorSentences = /([^\s*\w*\s*])/; //not alphanumeric characters with possible white spaces
+    var separtorSentences = /([^'\w\s])/; //not alphanumeric characters and not "'" with possible white spaces
     var separtorWords = /\s/; // white space
     var separatorAnyVowels = /([aeoui])/i;
     var separatorWordVowels = /([aeoui]\w*)/i;

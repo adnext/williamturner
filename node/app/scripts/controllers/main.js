@@ -13,13 +13,16 @@ angular.module('angularApp') // eslint-disable-line
                 $scope.turner = [];
                 $scope.loading = true;
                 $scope.activeMsg = 0;
+                
+                //@Important url of the DB server
+                var url = 'http://localhost:5002/williamturner/node';
 
                 function defaultErrorHandler(err) {
                     console.log(err);
                 }
 
                 function turnerGet() {
-                    Turner.get()
+                    Turner.get(url)
                             .success(function (data) {
                                 $scope.turner = data;
                                 $scope.loading = false;
@@ -40,7 +43,7 @@ angular.module('angularApp') // eslint-disable-line
                         var original = $scope.formData.text;
 
                         // POST =============================================================
-                        Turner.post(original)
+                        Turner.post(url, original)
                                 // if successful creation, read your writes
                                 .success(function (data) {
                                     // console.log(data)
