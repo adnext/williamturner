@@ -58,7 +58,7 @@
 
 <div ng-show="!loading" class="col-sm-8 col-sm-offset-2 text-center">
     <b>Top 5 Turner:</b> <br />
-    <div ng-repeat = "turn in turner">{{ turn.turned_text}}</div>
+    <div ng-repeat = "turn in turner|limitTo:5">{{ turn.turned_text}}</div>
 </div>
 
 <!--<div class="row marketing">-->
