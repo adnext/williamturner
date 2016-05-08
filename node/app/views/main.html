@@ -31,39 +31,35 @@
 -->
 
 <p class="text-center" ng-show="loading">
-  <span class="fa fa-spinner fa-spin fa-3x"></span>
+    <span class="fa fa-spinner fa-spin fa-3x"></span>
 </p>
 
 
-    <div ng-show="!loading" class="col-sm-8 col-sm-offset-2 text-center">
-        <img src="images/williamturner.png" alt="Williamturner">
-                
-        <span id="pirateTxt" >{{setText()}}</span>
-        
-        <br />
-        <form>
-            <div class="form-group">
+<div ng-show="!loading" class="col-sm-8 col-sm-offset-2 text-center">
+    <img src="images/williamturner.png" alt="Williamturner">
 
-                <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+    <span id="pirateTxt" >{{setText()}}</span>
 
-                <input type="text" class="form-control input-lg text-center" placeholder="Mell te!" ng-model="formData.text">
-            </div>
+    <br />
+    <form>
+        <div class="form-group">
 
-            <!-- createToDo() WILL CREATE NEW TODOS -->
-            <button type="submit" class="btn btn-primary btn-lg" ng-click="createTurner()">wurn tords</button>
-        </form>
-        
-<!--        <div>
-            <h3>Debug</h3>
-            <p>{{activeMsg}}</p>
-        </div>-->
-    </div>
+            <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+
+            <input type="text" class="form-control input-lg text-center" placeholder="Mell te!" ng-model="formData.text">
+        </div>
+
+        <!-- createToDo() WILL CREATE NEW TODOS -->
+        <button type="submit" class="btn btn-primary btn-lg" ng-click="createTurner()">wurn tords</button>
+    </form>
+
+</div>
 
 
-<!--<div ng-show="!loading" class="col-sm-8 col-sm-offset-2 text-center">
-<b>Top 5 Turner:</b> <br />
-<div ng-repeat = "turn in turner">{{ turn.turned_text }}</div>
-</div>-->
+<div ng-show="!loading" class="col-sm-8 col-sm-offset-2 text-center">
+    <b>Top 5 Turner:</b> <br />
+    <div ng-repeat = "turn in turner">{{ turn.turned_text}}</div>
+</div>
 
 <!--<div class="row marketing">-->
 <!--  <h4>HTML5 Boilerplate</h4>-->
