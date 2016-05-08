@@ -39,6 +39,7 @@ exports.turnerLogic = function(originalText) {
     var separtorWords = /\s/; // white space
     var separatorAnyVowels = /([aeoui])/i;
     var separatorWordVowels = /([aeoui]\w*)/i;
+    //var separatorWordVowels = /([aeoui]*[az&&[^aeiou]+)/i; //vowels followed by consonants
 
     var turnedText = "";
     var resultSentence= "";
