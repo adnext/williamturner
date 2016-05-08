@@ -1,20 +1,50 @@
 var http = require('http');
 var turnerLogicModule = require('./turnerLogic.js');
 
+/*
+ * Calls turnerLogic-function of ./turnerLogic.js
+ * @param {type} originalText
+ * @returns {unresolved}
+ */
 function turnerLogic(originalText) {
     return turnerLogicModule.turnerLogic(originalText);
 }
 
-module.exports = function (port, dbCli) {
-    function defultDBErrorHandler(err) {
-        //        assert.ifError(err);
+module.exports = function (dbCli, options) {
+
+    /*
+     * Default error handler
+     * @TODO log errors permanently (in a file or DB), eventually notify administrator  
+     */
+    function defultErrorHandler(err) {
+        // assert.ifError(err);
         if (err) {
-            console.log('err:');
+            console.log('___Error!___');
             console.log(err);
         }
     }
+    function defultDBErrorHandler(err) {
+        defultErrorHandler(err);
+    }
+    function defultServerErrorHandler(err) {
+        defultErrorHandler(err);
+    }
+
+    // input varibles
+    var port = options.port;
+    var responsePath = options.responsePath;
+    var responseDomain = options.responseDomain;
+
+    if (!port || !responsePath || !responseDomain) {
+        defultErrorHandler("Missing some options, options: " + options);
+    }
 
 
+
+
+    /*
+     * Gets 5 recent turner phrases and sends them back to the requester
+     */
     function onTurnerGet(response) {
         var query = 'SELECT turned_text FROM turner.turner_by_date LIMIT 5';
 
@@ -28,16 +58,20 @@ module.exports = function (port, dbCli) {
                 if (result.rows.length > 0) {
                     //console.log(result.rows);
 
-                    //send response is here, because of the asynchronicity of dbCli.execute();
+                    //send response is here, because of the asynchronicity of dbCli.execute() (dbCli.execute() returns promise);
                     response.write(JSON.stringify(result.rows));
-                } else{
-                    response.write(JSON.stringify({"turned_text" : "No entries in the DB"}));
+                } else {
+                    response.write(JSON.stringify({"turned_text": "No entries in the DB."}));
                 }
                 response.end();
             }
         });
     }
 
+    /*
+     * Modifies the input using turnerLogic, writes the result into the database 
+     * and returns the turned phrase for response. 
+     */
     function onTurnerPost(requestBody) {
         if (requestBody.length < 1) {
             return {"turned_text": "nop"};
@@ -58,16 +92,11 @@ module.exports = function (port, dbCli) {
         });
 
         return {"turned_text": turnedText};
-
     }
 
-    function onTurnerDelete(requestBody) {
-        return {"turned_text": "delete turned_text dummy"};
-
-    }
-
-
-
+    /*
+     * Handles REST communication
+     */
     http.createServer(function (request, response) {
         var headers = request.headers;
         var method = request.method;
@@ -75,30 +104,32 @@ module.exports = function (port, dbCli) {
         var requestBody = [];
 
         request.on('error', function (err) {
-            console.error(err);
+            defultServerErrorHandler(err);
         }).on('data', function (chunk) {
             requestBody.push(chunk);
         }).on('end', function () {
             requestBody = Buffer.concat(requestBody).toString();
 
-//        console.log("requestBody:");
-//        console.log(requestBody);
+//            console.log("requestBody:");
+//            console.log(requestBody);
 
             response.on('error', function (err) {
-                console.error(err);
+                defultServerErrorHandler(err);
             });
 
             //Set Header
             response.statusCode = 200;
             response.setHeader('Content-Type', 'application/json');
             //Set CORS
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost");
+            //@Important: will response only to request from responseDomain or same domain 
+            response.setHeader("Access-Control-Allow-Origin", responseDomain);
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE OPTIONS, HEAD");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
 
-            if (request.url === '/williamturner/node') {
+            //@Important: will response only to request from responsePath
+            if (request.url === responsePath) {
                 switch (request.method) {
                     case 'GET':
                         onTurnerGet(response);
@@ -108,20 +139,13 @@ module.exports = function (port, dbCli) {
                         response.write(JSON.stringify(responseBody));
                         response.end();
                         break;
-                    case 'DELETE':
-                        responseBody = onTurnerDelete(requestBody);
-                        response.write(JSON.stringify(responseBody));
-                        response.end();
-                        break;
                     default :
-                        responseBody = {"default": "default DUMMY"};
+                        responseBody = {"default": "default request method"};
                         response.write(JSON.stringify(responseBody));
                         response.end();
                         break;
                 }
             }
-
-//        response.end('<html><body><h1>Hello, World!</h1></body></html>');
 
         });
     }).listen(port); // Activates this server, listening on eventually port 5002.

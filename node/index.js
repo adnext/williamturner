@@ -13,6 +13,8 @@ var cassandra = require('cassandra-driver');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var responsePath = '/williamturner/node'; // set the response path
+var responseDomain = "http://localhost"; // set the response domain
 
 var dbCli = new cassandra.Client(database);
 dbCli.connect(function (err) {
@@ -33,11 +35,12 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse applicati
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
 
 // routes ======================================================================
-require('./server/routes.js')(app, dbCli);
+//require('./server/routes.js')(app, dbCli); // unused
 
 // listen (start app with node server.js) ======================================
 //app.listen(port);
 
-require('./api/turnerApi.js')(port, dbCli);
+var apiOptions = {port: port, responsePath: responsePath, responseDomain: responseDomain};
+require('./api/turnerApi.js')(dbCli, apiOptions);
 
 console.log("App listening on port " + port);

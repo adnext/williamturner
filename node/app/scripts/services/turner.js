@@ -14,18 +14,18 @@ angular.module('turnerService', []) // eslint-disable-line
         // each function returns a promise object
         .factory('Turner', ['$http', function ($http) {
                 return {
-                    get: function () {
+                    get: function (url) {
                         return $http({
-                            url: 'http://localhost:5002/williamturner/node',
-                            method: "GET",
+                            url: url,
+                            method: 'GET',
                             withCredentials: true,
                             headers: {
-                                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             }
-                        });
+                        })
                     },
-                    post: function (original_text) {
-                        return $http.post('http://localhost:5002/williamturner/node', {'text': original_text})
+                    post: function (url, original_text) {
+                        return $http.post(url, {'text': original_text})
                     }
                 }
             }])
